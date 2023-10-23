@@ -55,8 +55,10 @@ export default () => {
   const handleTextChange = useCallback(async (text: string) => {
     setSearchValue(text);
     if (text?.length >= 2) {
+      setIsLoading(true);
       const res = await searchGifs(text);
       setSearchedGifs(res ?? []);
+      setIsLoading(false);
     }
   }, []);
 

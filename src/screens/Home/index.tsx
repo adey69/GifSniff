@@ -1,7 +1,13 @@
 import React, { useCallback } from 'react';
 import { ListRenderItemInfo, Text, View } from 'react-native';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
-import { CustomButton, GifImage, GifInfo, SearchField } from '~/components';
+import {
+  CustomButton,
+  GifImage,
+  GifInfo,
+  LoadingIndicator,
+  SearchField,
+} from '~/components';
 import { APP_TEXT } from '~/strings';
 import { useHome } from './Hooks';
 import styles from './styles';
@@ -53,14 +59,17 @@ const Home = () => {
         {!isSearchFocused ? (
           <GifInfo gif={randomGif} isLoading={isLoading} />
         ) : (
-          <KeyboardAwareFlatList
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.listContainer}
-            data={searchedGifs}
-            renderItem={renderGifListItem}
-            numColumns={3}
-            keyboardShouldPersistTaps="always"
-          />
+          <>
+            {isLoading && <LoadingIndicator animating={isLoading} />}
+            <KeyboardAwareFlatList
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.listContainer}
+              data={searchedGifs}
+              renderItem={renderGifListItem}
+              numColumns={3}
+              keyboardShouldPersistTaps="always"
+            />
+          </>
         )}
       </View>
     </View>

@@ -30,5 +30,8 @@ export default StyleSheet.create({
   },
   cancelButton: {
     marginLeft: 12,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

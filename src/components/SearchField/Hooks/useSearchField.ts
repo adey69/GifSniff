@@ -45,7 +45,7 @@ export default (params: IUseSearchFieldParams) => {
 
   useEffect(() => {
     if (isSearchFocused) {
-      handleCancelAnimation(100);
+      handleCancelAnimation(70);
     } else {
       handleCancelAnimation(0);
     }
