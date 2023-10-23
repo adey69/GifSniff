@@ -3,4 +3,5 @@ export const COLORS = {
   borderGrey: '#CCCCCC',
   linkBlue: '#3366CC',
   white: '#FFFFFF',
+  lightText: '#AAAAAA',
 };

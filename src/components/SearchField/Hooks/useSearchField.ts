@@ -5,7 +5,7 @@ import {
   useEffect,
   useRef,
 } from 'react';
-import { Animated } from 'react-native';
+import { Animated, Easing } from 'react-native';
 
 interface IUseSearchFieldParams {
   isSearchFocused: boolean;
@@ -18,6 +18,8 @@ export default (params: IUseSearchFieldParams) => {
   const { value, isSearchFocused, handleBlur, onChangeText, setSearchedGifs } =
     params;
   const cancelWidth = useRef(new Animated.Value(0)).current;
+  const cancelOpacity = useRef(new Animated.Value(0)).current;
+  const cancelTranslateX = useRef(new Animated.Value(0)).current;
 
   const onCancelPressed = useCallback(() => {
     setSearchedGifs([]);
@@ -34,13 +36,25 @@ export default (params: IUseSearchFieldParams) => {
 
   const handleCancelAnimation = useCallback(
     (toValue: number) => {
-      Animated.timing(cancelWidth, {
-        toValue,
-        duration: 200,
-        useNativeDriver: false,
-      }).start();
+      Animated.parallel([
+        Animated.timing(cancelWidth, {
+          toValue,
+          duration: 200,
+          useNativeDriver: false,
+        }),
+        Animated.timing(cancelTranslateX, {
+          toValue: toValue === 70 ? 0 : 70,
+          duration: 100,
+          useNativeDriver: false,
+        }),
+        Animated.timing(cancelOpacity, {
+          toValue: toValue === 70 ? 1 : 0,
+          duration: 200,
+          useNativeDriver: false,
+        }),
+      ]).start();
     },
-    [cancelWidth],
+    [cancelWidth, cancelOpacity, cancelTranslateX],
   );
 
   useEffect(() => {
@@ -53,6 +67,8 @@ export default (params: IUseSearchFieldParams) => {
 
   return {
     cancelWidth,
+    cancelOpacity,
+    cancelTranslateX,
     onSubmit,
     onCancelPressed,
     handleCancelAnimation,

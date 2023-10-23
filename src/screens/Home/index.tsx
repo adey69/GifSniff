@@ -52,6 +52,9 @@ const Home = () => {
         setSearchedGifs={setSearchedGifs}
         isSearchFocused={isSearchFocused}
       />
+      {isSearchFocused && (
+        <Text style={styles.searchHint}>{APP_TEXT.searchHint}</Text>
+      )}
       <View style={styles.randomGifContainer}>
         <Text>
           {isSearchFocused ? APP_TEXT.searchResults : APP_TEXT.randomGif}:

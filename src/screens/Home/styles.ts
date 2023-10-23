@@ -21,4 +21,8 @@ export default StyleSheet.create({
     marginBottom: 4,
     marginHorizontal: 3,
   },
+  searchHint: {
+    color: COLORS.lightText,
+    marginTop: 2,
+  },
 });

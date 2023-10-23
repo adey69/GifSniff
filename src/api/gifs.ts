@@ -1,5 +1,7 @@
 import axios from 'axios';
 import Config from 'react-native-config';
+import Snackbar from 'react-native-snackbar';
+import { APP_TEXT } from '~/strings';
 
 const axiosInstance = axios.create({
   baseURL: Config.BASE_URL,
@@ -16,6 +18,10 @@ export const getRandomGif = async () => {
     return res.data;
   } catch (err) {
     console.log(err);
+    Snackbar.show({
+      text: APP_TEXT.somethingWentWrong,
+      duration: Snackbar.LENGTH_LONG,
+    });
   }
 };
 
@@ -32,5 +38,9 @@ export const searchGifs = async (query: string) => {
     return res.data;
   } catch (err) {
     console.log(err);
+    Snackbar.show({
+      text: APP_TEXT.somethingWentWrong,
+      duration: Snackbar.LENGTH_LONG,
+    });
   }
 };
