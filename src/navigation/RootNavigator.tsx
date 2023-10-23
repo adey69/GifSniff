@@ -1,15 +1,28 @@
 import React, { useCallback } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  StackNavigationOptions,
+  createStackNavigator,
+} from '@react-navigation/stack';
 
 import { GifDetails, Home } from '~/screens';
 import { HeaderBack } from '~/components';
 
 const Stack = createStackNavigator<RootStackParamsList>();
 
+const commonOptions: StackNavigationOptions = {
+  headerTitleAlign: 'center',
+  headerTitleContainerStyle: {
+    paddingHorizontal: 4,
+  },
+  headerTitleStyle: {
+    textTransform: 'capitalize',
+  },
+};
+
 const RootNavigator = () => {
   const renderHeaderBack = useCallback(() => <HeaderBack />, []);
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={commonOptions}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen
         name="GifDetails"

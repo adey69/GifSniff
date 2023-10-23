@@ -6,11 +6,12 @@
  */
 
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, useColorScheme } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import BootSplash from 'react-native-bootsplash';
 import { RootNavigator } from './navigation';
 
 function App(): JSX.Element {
@@ -19,6 +20,12 @@ function App(): JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      BootSplash.hide({ fade: true });
+    }, 500);
+  }, []);
 
   return (
     <SafeAreaView style={[backgroundStyle, styles.container]}>

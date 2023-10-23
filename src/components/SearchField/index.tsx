@@ -4,7 +4,7 @@ import React, {
   SetStateAction,
   forwardRef,
 } from 'react';
-import { Text, TextInput, TextInputProps, View } from 'react-native';
+import { Animated, Text, TextInput, TextInputProps, View } from 'react-native';
 import SearchSvg from '~/assets/svg/search.svg';
 import CloseSvg from '~/assets/svg/close.svg';
 import styles from './styles';
@@ -13,6 +13,7 @@ import CustomButton from '../CustomButton';
 import { useSearchField } from './Hooks';
 
 interface ISearchFieldProps extends TextInputProps {
+  isSearchFocused: boolean;
   onFieldPressed: () => void;
   handleBlur: () => void;
   setSearchedGifs: Dispatch<SetStateAction<IGifData[]>>;
@@ -20,14 +21,22 @@ interface ISearchFieldProps extends TextInputProps {
 
 const SearchField = forwardRef(
   (props: ISearchFieldProps, ref: ForwardedRef<TextInput>) => {
-    const { value, onFieldPressed, handleBlur, onChangeText, setSearchedGifs } =
-      props;
-    const { onSubmit, onCancelPressed } = useSearchField({
+    const {
+      isSearchFocused,
       value,
+      onFieldPressed,
+      handleBlur,
+      onChangeText,
+      setSearchedGifs,
+    } = props;
+    const { cancelWidth, onSubmit, onCancelPressed } = useSearchField({
+      value,
+      isSearchFocused,
       handleBlur,
       onChangeText,
       setSearchedGifs,
     });
+
     return (
       <View style={styles.container}>
         <CustomButton
@@ -44,7 +53,7 @@ const SearchField = forwardRef(
             placeholder={APP_TEXT.search}
             onSubmitEditing={onSubmit}
           />
-          {ref?.current?.isFocused() && value && value?.length > 0 && (
+          {isSearchFocused && value && value?.length > 0 && (
             <CustomButton
               style={styles.closeIcon}
               onPress={() => onChangeText?.('')}>
@@ -52,11 +61,14 @@ const SearchField = forwardRef(
             </CustomButton>
           )}
         </CustomButton>
-        {ref?.current?.isFocused() && (
+        <Animated.View
+          style={{
+            width: cancelWidth,
+          }}>
           <CustomButton style={styles.cancelButton} onPress={onCancelPressed}>
             <Text>{APP_TEXT.cancel}</Text>
           </CustomButton>
-        )}
+        </Animated.View>
       </View>
     );
   },

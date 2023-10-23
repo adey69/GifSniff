@@ -26,15 +26,15 @@ export default StyleSheet.create({
   },
   ageContainer: {
     backgroundColor: COLORS.darkGrey,
-    height: 80,
-    width: 80,
+    height: 70,
+    width: 70,
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 16,
   },
   age: {
-    fontSize: 24,
+    fontSize: 20,
     color: COLORS.white,
     fontWeight: 'bold',
     textTransform: 'uppercase',

@@ -44,6 +44,7 @@ const Home = () => {
         onFocus={focusSearch}
         handleBlur={blurSearch}
         setSearchedGifs={setSearchedGifs}
+        isSearchFocused={isSearchFocused}
       />
       <View style={styles.randomGifContainer}>
         <Text>

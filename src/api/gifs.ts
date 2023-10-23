@@ -1,9 +1,10 @@
 import axios from 'axios';
+import Config from 'react-native-config';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://api.giphy.com/v1/gifs',
+  baseURL: Config.BASE_URL,
   params: {
-    api_key: 'BluxFAOfAHEf9xg0PdiHD1fqlEAEdlSu',
+    api_key: Config.API_KEY,
   },
 });
 

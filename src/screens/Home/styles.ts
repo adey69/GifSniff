@@ -5,18 +5,18 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.white,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingVertical: 16,
   },
   randomGifContainer: {
     marginTop: 16,
   },
-
   listContainer: {
     paddingBottom: 100,
+    marginTop: 10,
   },
   gifListItem: {
-    width: (Dimensions.get('screen').width - 57) / 3,
+    width: (Dimensions.get('screen').width - 49) / 3,
     aspectRatio: 1,
     marginBottom: 4,
     marginHorizontal: 3,

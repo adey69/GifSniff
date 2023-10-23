@@ -8,9 +8,11 @@ export default StyleSheet.create({
   },
   internalContainer: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     flexDirection: 'row',
-    paddingVertical: 8,
     paddingHorizontal: 12,
+    height: 40,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: COLORS.borderGrey,

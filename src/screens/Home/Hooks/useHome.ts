@@ -3,7 +3,6 @@ import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { TextInput } from 'react-native';
 import { getRandomGif, searchGifs } from '~/api';
-import useAnimations from './useAnimations';
 
 export default () => {
   const searchInputRef = useRef<TextInput>(null);
@@ -15,7 +14,6 @@ export default () => {
   const [searchedGifs, setSearchedGifs] = useState<IGifData[]>([]);
   const navigation = useNavigation<RootStackNavigationProp>();
   const isFocused = useIsFocused();
-  const { handleCancelAnimation } = useAnimations();
 
   const fetchRandomGif = useCallback(async () => {
     if (!isSearchFocused) {
@@ -43,11 +41,10 @@ export default () => {
   }, []);
 
   const focusSearch = useCallback(() => {
-    handleCancelAnimation();
     stopRandomGifsInterval();
     searchInputRef?.current?.focus();
     setIsSearchFocused(true);
-  }, [stopRandomGifsInterval, handleCancelAnimation]);
+  }, [stopRandomGifsInterval]);
 
   const blurSearch = useCallback(() => {
     searchInputRef?.current?.blur();
