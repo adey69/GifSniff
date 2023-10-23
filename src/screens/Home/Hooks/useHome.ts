@@ -1,15 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Linking, TextInput } from 'react-native';
+import { TextInput } from 'react-native';
 import { getRandomGif, searchGifs } from '~/api';
+import useAnimations from './useAnimations';
 
 export default () => {
   const searchInputRef = useRef<TextInput>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [randomGif, setRandomGif] = useState<IGifData | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchedGifs, setSearchedGifs] = useState<IGifData[]>([]);
+  const navigation = useNavigation<RootStackNavigationProp>();
+  const isFocused = useIsFocused();
+  const { handleCancelAnimation } = useAnimations();
 
   const fetchRandomGif = useCallback(async () => {
     if (!isSearchFocused) {
@@ -21,11 +27,13 @@ export default () => {
   }, [isSearchFocused]);
 
   const initiateRandomGifs = useCallback(() => {
-    fetchRandomGif();
-    intervalRef.current = setInterval(() => {
+    if (isFocused) {
       fetchRandomGif();
-    }, 10000);
-  }, [fetchRandomGif]);
+      intervalRef.current = setInterval(() => {
+        fetchRandomGif();
+      }, 10000);
+    }
+  }, []);
 
   const stopRandomGifsInterval = useCallback(() => {
     if (intervalRef.current) {
@@ -35,10 +43,11 @@ export default () => {
   }, []);
 
   const focusSearch = useCallback(() => {
+    handleCancelAnimation();
     stopRandomGifsInterval();
     searchInputRef?.current?.focus();
     setIsSearchFocused(true);
-  }, [stopRandomGifsInterval]);
+  }, [stopRandomGifsInterval, handleCancelAnimation]);
 
   const blurSearch = useCallback(() => {
     searchInputRef?.current?.blur();
@@ -54,19 +63,28 @@ export default () => {
     }
   }, []);
 
-  const handleLinkPressed = async () => {
-    const url = randomGif?.url ?? '';
-    const canOpenUrl = await Linking.canOpenURL(url);
-    if (canOpenUrl) {
-      Linking.openURL(url);
-    }
-  };
+  const onListItemPressed = useCallback(
+    (gif: IGifData) => {
+      navigation.navigate('GifDetails', {
+        gif,
+      });
+    },
+    [navigation],
+  );
 
   useEffect(() => {
     initiateRandomGifs();
 
     return () => stopRandomGifsInterval();
   }, [initiateRandomGifs, stopRandomGifsInterval]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      stopRandomGifsInterval();
+    });
+
+    return unsubscribe;
+  }, []);
 
   return {
     isLoading,
@@ -78,6 +96,7 @@ export default () => {
     blurSearch,
     focusSearch,
     handleTextChange,
-    handleLinkPressed,
+    onListItemPressed,
+    setSearchedGifs,
   };
 };

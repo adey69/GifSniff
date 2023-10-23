@@ -1,4 +1,9 @@
-import React, { ForwardedRef, forwardRef } from 'react';
+import React, {
+  Dispatch,
+  ForwardedRef,
+  SetStateAction,
+  forwardRef,
+} from 'react';
 import { Text, TextInput, TextInputProps, View } from 'react-native';
 import SearchSvg from '~/assets/svg/search.svg';
 import CloseSvg from '~/assets/svg/close.svg';
@@ -10,12 +15,19 @@ import { useSearchField } from './Hooks';
 interface ISearchFieldProps extends TextInputProps {
   onFieldPressed: () => void;
   handleBlur: () => void;
+  setSearchedGifs: Dispatch<SetStateAction<IGifData[]>>;
 }
 
 const SearchField = forwardRef(
   (props: ISearchFieldProps, ref: ForwardedRef<TextInput>) => {
-    const { value, onFieldPressed, handleBlur, onChangeText } = props;
-    const { onCancelPressed } = useSearchField({ handleBlur, onChangeText });
+    const { value, onFieldPressed, handleBlur, onChangeText, setSearchedGifs } =
+      props;
+    const { onSubmit, onCancelPressed } = useSearchField({
+      value,
+      handleBlur,
+      onChangeText,
+      setSearchedGifs,
+    });
     return (
       <View style={styles.container}>
         <CustomButton
@@ -30,8 +42,7 @@ const SearchField = forwardRef(
             autoCorrect={false}
             autoCapitalize="none"
             placeholder={APP_TEXT.search}
-            onSubmitEditing={handleBlur}
-            onBlur={handleBlur}
+            onSubmitEditing={onSubmit}
           />
           {ref?.current?.isFocused() && value && value?.length > 0 && (
             <CustomButton
@@ -51,4 +62,4 @@ const SearchField = forwardRef(
   },
 );
 
-export default SearchField;
+export default React.memo(SearchField);

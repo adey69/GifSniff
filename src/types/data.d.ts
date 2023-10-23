@@ -1,6 +1,6 @@
 interface IGifData {
   title: string;
-  rating: string;
+  rating: 'g' | 'pg' | 'pg-13' | 'r';
   url: string;
   images: {
     original: {
