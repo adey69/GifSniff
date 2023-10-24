@@ -5,7 +5,7 @@ import {
   useEffect,
   useRef,
 } from 'react';
-import { Animated, Easing } from 'react-native';
+import { Animated } from 'react-native';
 
 interface IUseSearchFieldParams {
   isSearchFocused: boolean;
