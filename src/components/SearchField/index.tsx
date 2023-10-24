@@ -29,19 +29,14 @@ const SearchField = forwardRef(
       onChangeText,
       setSearchedGifs,
     } = props;
-    const {
-      cancelWidth,
-      cancelOpacity,
-      cancelTranslateX,
-      onSubmit,
-      onCancelPressed,
-    } = useSearchField({
-      value,
-      isSearchFocused,
-      handleBlur,
-      onChangeText,
-      setSearchedGifs,
-    });
+    const { cancelWidth, cancelOpacity, onSubmit, onCancelPressed } =
+      useSearchField({
+        value,
+        isSearchFocused,
+        handleBlur,
+        onChangeText,
+        setSearchedGifs,
+      });
 
     return (
       <View style={styles.container}>
@@ -71,7 +66,6 @@ const SearchField = forwardRef(
           style={{
             width: cancelWidth,
             opacity: cancelOpacity,
-            transform: [{ translateX: cancelTranslateX }],
           }}>
           <CustomButton style={styles.cancelButton} onPress={onCancelPressed}>
             <Text>{APP_TEXT.cancel}</Text>
