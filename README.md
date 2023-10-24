@@ -12,3 +12,5 @@ root
 -types --> As the code is written in typescript, I make use of .d.ts files to specify types which I could use globally. This directory store all such files.
 
 I've used babel module resolver plugin to avoid specifying annoying absolute paths. Moreover, the use of index files in each directory helps the developer to use short import paths in the code.
+
+NOTE: The API Base URL and the API Key are in .env file which is not pushed in the repository. I will provide the .env during the code review.
